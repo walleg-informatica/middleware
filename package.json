@@ -14,6 +14,6 @@
   "homepage": "https://github.com/walleg-informatica/middleware#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mssql": "^6.0.1"
+    "tedious": "^6.6.2"
   }
 }
