@@ -1,15 +1,14 @@
 var sql = require('tedious');
 
 const connect = () => new Promise((resolve, reject) => {
-  console.log ('deidei')
   const connection = new sql.Connection({
     server: process.env.DATABASE_HOST,
-    options:{ 
-      port: process.env.DATABASE_PORT
+    options:{
+      port: parseInt(process.env.DATABASE_PORT)
     },
     authentication: {
       type: "default",
-      options: {  
+      options: {
         userName: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
       }
@@ -22,17 +21,17 @@ const connect = () => new Promise((resolve, reject) => {
       query: query(connection)
     })
   })
-  
+
   connection.on('error', function(err) {
     reject(err)
   })
 })
 
-const query = (connection) => (queryString) => new Promise((resolve, reject) => { 
+const query = (connection) => (queryString) => new Promise((resolve, reject) => {
   const request = new sql.Request(queryString, function(err, count, rows) {
     if (err) {
       reject(err);
-    } 
+    }
   })
 
   const rows = []
