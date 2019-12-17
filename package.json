@@ -2,7 +2,7 @@
   "name": "middleware",
   "version": "0.0.1",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
