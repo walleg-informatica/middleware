@@ -4,10 +4,9 @@ const app = express()
 const PedidoRepository = require('./pedidoRepository')
 const PedidoRoutes = require('./pedidoRoutes')
 
-app.listen(3002, async() => {
+app.listen(3065, async() => {
   const connection = await database.connect()
   const pedidoRepository = PedidoRepository(connection)
-  console.log(pedidoRepository)
   PedidoRoutes(app, pedidoRepository)
 })
 
