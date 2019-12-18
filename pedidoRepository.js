@@ -1,11 +1,21 @@
 module.exports = function pedidoRepository(connection) {
   const get = async() => {
-    const query = `SELECT TOP 50 número, data, hora 
-                   FROM pedidos
-                   GROUP BY número, data, hora
+    const query = `SELECT TOP 50 número, (
+                      SELECT TOP 1 valor FROM pedidos p2 WHERE
+                      p1.número = p2.número 
+                   ) AS valor
+                   FROM pedidos p1
+                   GROUP BY número
                    ORDER BY número DESC`
 
-    return await connection.query(query)
+    const pedidos = await connection.query(query)
+    return pedidos.map((pedido) => ({
+      id: pedido['número'],
+      data: pedido['data'],
+      hora: pedido['hora'],
+      valor: pedido['valor'],
+      quantidade: pedido['qte']
+    }))
   }
 
   const getProdutos = async(numero) => {
