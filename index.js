@@ -1,8 +1,11 @@
 const database = require('./database')
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const PedidoRepository = require('./pedidoRepository')
 const PedidoRoutes = require('./pedidoRoutes')
+
+app.use(cors())
 
 app.listen(3065, async() => {
   const connection = await database.connect()
