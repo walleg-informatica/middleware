@@ -11,7 +11,7 @@ const connect = () => new Promise((resolve, reject) => {
       type: "default",
       options: {
         userName: process.env.DATABASE_USER,
-        password: 'process.env.DATABASE_PASSWORD,
+        password: process.env.DATABASE_PASSWORD,
       }
     }
   })
