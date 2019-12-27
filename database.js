@@ -3,6 +3,7 @@ var sql = require('tedious');
 const connect = () => new Promise((resolve, reject) => {
   const connection = new sql.Connection({
     server: process.env.DATABASE_HOST,
+    //database: 'Emp01',
     options:{
       port: parseInt(process.env.DATABASE_PORT)
     },
@@ -10,7 +11,7 @@ const connect = () => new Promise((resolve, reject) => {
       type: "default",
       options: {
         userName: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
+        password: 'process.env.DATABASE_PASSWORD,
       }
     }
   })

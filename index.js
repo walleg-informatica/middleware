@@ -1,17 +1,26 @@
 const database = require('./database')
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 const app = express()
-const PedidoRepository = require('./pedidoRepository')
-const PedidoRoutes = require('./pedidoRoutes')
 
 app.use(cors())
+app.use(bodyParser.json())
 
-app.listen(3065, async() => {
+const fs = require('fs')
+
+app.listen(8000, async() => {
   const connection = await database.connect()
-  const pedidoRepository = PedidoRepository(connection)
-  PedidoRoutes(app, pedidoRepository)
 
+  fs.readdirSync('./routes')
+    .map((routeFile) => {
+      const moduleName = routeFile.replace('Routes.js', '')
+      const repositoryModule = require(`./repositories/${moduleName}Repository.js`)
+      const routeModule = require(`./routes/${moduleName}Routes.js`)
+
+      const repository = repositoryModule(connection)
+      routeModule(app, repository)
+    })
 })
 
 /*
