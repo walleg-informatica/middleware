@@ -16,6 +16,7 @@ const connect = () => new Promise((resolve, reject) => {
     }
   })
 
+  console.log('trying to login at', process.env.DATABASE_HOST)
   connection.on('connect', function(err) {
     return resolve({
       connection,

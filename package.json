@@ -2,7 +2,7 @@
   "name": "middleware",
   "version": "0.0.1",
   "scripts": {
-    "start": "node index"
+    "start": "node index local"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
   },
   "homepage": "https://github.com/walleg-informatica/middleware#readme",
   "dependencies": {
+    "aws-serverless-express": "^3.3.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
