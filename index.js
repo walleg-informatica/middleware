@@ -1,18 +1,49 @@
 const database = require('./database')
+const awsServerlessExpress = require('aws-serverless-express')
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 const app = express()
-const PedidoRepository = require('./pedidoRepository')
-const PedidoRoutes = require('./pedidoRoutes')
 
 app.use(cors())
+app.use(bodyParser.json())
 
-app.listen(3065, async() => {
-  const connection = await database.connect()
-  const pedidoRepository = PedidoRepository(connection)
-  PedidoRoutes(app, pedidoRepository)
+const fs = require('fs')
 
+const initialize = () => new Promise((resolve, reject) => {
+  database.connect()
+    .then((connection) => {
+      fs.readdirSync('./routes')
+        .map((routeFile) => {
+          const moduleName = routeFile.replace('Routes.js', '')
+          const repositoryModule = require(`./repositories/${moduleName}Repository.js`)
+          const routeModule = require(`./routes/${moduleName}Routes.js`)
+
+          const repository = repositoryModule(connection)
+          routeModule(app, repository)
+        })
+      resolve()
+    })
+    .catch((e) => reject(e))
 })
+
+  
+
+const arguments = process.argv.slice(2)
+if(arguments.length === 1 && arguments[0] === 'local') {
+  initialize()
+    .then(() => { app.listen(8000) })
+} else {
+  module.exports.handler = (event, context, callback) => {
+    initialize()
+      .then(() => {
+        const server = awsServerlessExpress.createServer(app)
+        awsServerlessExpress.proxy(server, event, context)
+      })
+  }
+
+}
+
 
 /*
 SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'

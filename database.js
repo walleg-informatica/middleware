@@ -3,6 +3,7 @@ var sql = require('tedious');
 const connect = () => new Promise((resolve, reject) => {
   const connection = new sql.Connection({
     server: process.env.DATABASE_HOST,
+    //database: 'Emp01',
     options:{
       port: parseInt(process.env.DATABASE_PORT)
     },
@@ -15,6 +16,7 @@ const connect = () => new Promise((resolve, reject) => {
     }
   })
 
+  console.log('trying to login at', process.env.DATABASE_HOST)
   connection.on('connect', function(err) {
     return resolve({
       connection,

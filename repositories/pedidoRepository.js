@@ -29,12 +29,14 @@ module.exports = function pedidoRepository(connection) {
                           TipoPedido.Tipo,
                           TipoProduto.Descrição,
                           FormaPagto.DescriçãoPagto,
-                          PedidosStatus.Status
+                          PedidosStatus.Status,
+                          StatusPedido.Status as StatusPedido
                    FROM pedidos pe
                    LEFT JOIN produtos pr ON pe.produto = pr.estoque_codigo
                    LEFT JOIN clientes ON pe.cliente = clientes.CodigoCliente
                    LEFT JOIN vendedores ON pe.vendedor = vendedores.código
                    LEFT JOIN TipoPedido ON pe.TipoPedido = TipoPedido.Codigo
+                   LEFT JOIN StatusPedido ON pe.statuspedido = StatusPedido.Codigo
                    LEFT JOIN TipoProduto ON pr.TipoProduto = TipoProduto.Código
                    LEFT JOIN FormaPagto ON pe.FormaPagto = FormaPagto.CódigoPagto
                    LEFT JOIN PedidosStatus ON pe.StatusPedido = PedidosStatus.Codigo
@@ -59,6 +61,7 @@ module.exports = function pedidoRepository(connection) {
       data: pedido['data'],
       hora: pedido['hora'],
       status: pedido['Status'],
+      statusPedido: pedido['StatusPedido'],
       formaPagamento: pedido['FormaPagto'],
       descricaoPagamento: pedido['DescriçãoPagto'],
       observacao: pedido['obs'],
@@ -74,5 +77,9 @@ module.exports = function pedidoRepository(connection) {
     return result
   }
 
-  return {get, getProdutos}
+  const update = async(id, { status }) => {
+    await connection.query(`update pedidos set statuspedido ='${status}' where número =${id}`)
+  }
+
+  return {get, getProdutos, update}
 }
