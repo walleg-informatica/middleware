@@ -1,0 +1,10 @@
+language: node_js
+node_js: "10"
+install:
+  - npm install
+script:
+  - npm test
+after_success:
+  - pip install --user awscli
+  - zip -r lambda.zip *
+  - aws lambda update-function-code --function-name walleg-mobile --zip-file fileb://lambda.zip
