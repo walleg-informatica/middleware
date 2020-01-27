@@ -11,15 +11,12 @@ module.exports = function produtoRepository(connection) {
     if(produtos.length) {
       const [produto] = produtos
       return {
-        id: produto['produto'],
-        tipoProduto: produto['Descrição'],
+        id: produto['estoque_codigo'],
         codigoDeBarras: produto['estoque_codbarras'],
-        quantidade: produto['qte'],
         estoque: produto['estoque'],
-        valor: produto['valor'],
         tabela: produto['estoque_tabela'],
         descricao: produto['estoque_descrição'],
-        version: 2
+        version: 3
       }
     }
     return {}
