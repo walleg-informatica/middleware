@@ -15,7 +15,9 @@ module.exports = function produtoRepository(connection) {
         tipoProduto: produto['Descrição'],
         codigoDeBarras: produto['estoque_codbarras'],
         quantidade: produto['qte'],
+        estoque: produto['estoque'],
         valor: produto['valor'],
+        tabela: produto['estoque_tabela'],
         descricao: produto['estoque_descrição']
       }
     }
