@@ -78,7 +78,10 @@ module.exports = function pedidoRepository(connection) {
   }
 
   const update = async(id, { status }) => {
-    await connection.query(`update pedidos set statuspedido ='${status}' where número =${id}`)
+    const result = await connection.query(`update pedidos set statuspedido ='${status}' where número =${id}`)
+    return {
+      result
+    }
   }
 
   return {get, getProdutos, update}
