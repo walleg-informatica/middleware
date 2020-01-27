@@ -24,6 +24,7 @@ module.exports = function pedidoRepository(connection) {
                           pe.FormaPagto, pe.hora, pe.obs, pe.cupom, pe.DatadeEntrega, pe.comissao,
                           pe.TipoPedido, pe.StatusPedido,
                           pr.estoque_descrição, 
+                          pr.estoque_codbarras,
                           clientes.RazaoSocial,
                           vendedores.nome,
                           TipoPedido.Tipo,
@@ -68,6 +69,7 @@ module.exports = function pedidoRepository(connection) {
       produtos: produtos.map((produto) => ({
         id: produto['produto'],
         tipoProduto: produto['Descrição'],
+        codigoDeBarras: produto['estoque_codbarras'],
         quantidade: produto['qte'],
         valor: produto['valor'],
         descricao: produto['estoque_descrição']
