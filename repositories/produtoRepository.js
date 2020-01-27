@@ -18,7 +18,8 @@ module.exports = function produtoRepository(connection) {
         estoque: produto['estoque'],
         valor: produto['valor'],
         tabela: produto['estoque_tabela'],
-        descricao: produto['estoque_descrição']
+        descricao: produto['estoque_descrição'],
+        version: 2
       }
     }
     return {}
