@@ -8,8 +8,8 @@ module.exports = function produtoRepository(connection) {
                    where ${whereField}='${codigoDeBarras || codigo}'`
 
     const produtos = await connection.query(query)
-    const produto = {}
     if(produtos.length) {
+      const [produto] = produtos
       return {
         id: produto['produto'],
         tipoProduto: produto['Descrição'],
